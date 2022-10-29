@@ -1,4 +1,4 @@
-package com.example.dicerollerapp
+package com.example.dr2app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.dicerollerapp.ui.theme.DiceRollerAppTheme
+import com.example.dr2app.ui.theme.DR2AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DiceRollerAppTheme {
+            DR2AppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     DiceRollerButtonAndImage(
                         modifier = Modifier
                             .fillMaxSize()
-                            .wrapContentSize(align = Alignment.Center)
+                            .wrapContentSize(Alignment.Center)
                     )
                 }
             }
@@ -42,23 +42,35 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun DiceRollerButtonAndImagePreview() {
-    DiceRollerAppTheme {
+fun DR2AppPreview() {
+    DR2AppTheme {
         DiceRollerButtonAndImage(
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentSize(align = Alignment.Center)
+                .wrapContentSize(Alignment.Center)
         )
     }
 }
 
 @Composable
-fun DiceRollerButtonAndImage(modifier: Modifier = Modifier) {
-    var number = 1
+fun DiceRollerButtonAndImage(modifier: Modifier = Modifier){
+    var number by remember {
+        mutableStateOf(1)
+    }
+    val dice_name = when(number){
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        else -> R.drawable.dice_6
+
+
+    }
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(painter = painterResource(id = R.drawable.dice_1), contentDescription = "1")
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = stringResource(R.string.roll))
+        Image(painter = painterResource(id = dice_name), contentDescription = "1" )
+        Button(onClick = { number = (1..6).random()}) {
+            Text(text = stringResource(R.string.Roll))
         }
     }
 
